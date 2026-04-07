@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Crime Complaint System Login</title>
+
+<style>
+
+:root {
+    --cyber-blue: #00ffff;
+    --cyber-dark: #0a0f0f;
+}
+
+/* Background Image - Changed to cyber/tech theme */
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: "Times New Roman", Times, serif;
+    background: url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80") no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Dark overlay with blue tint */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,20,40,0.7);
+    backdrop-filter: blur(4px);
+}
+
+/* Particles */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Glass card - changed to dark cyber theme */
+.login-container {
+    position: relative;
+    width: 420px;
+    padding: 45px;
+    border-radius: 25px;
+    background: rgba(10,15,20,0.4);
+    border: 1px solid var(--cyber-blue);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 40px rgba(0,255,255,0.2);
+    color: white;
+    z-index: 2;
+    animation: glowPulse 3s infinite ease-in-out;
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+    50% { box-shadow: 0 0 50px rgba(0,255,255,0.6); }
+    100% { box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+}
+
+.login-title {
+    text-align: center;
+    font-size: 50px;
+    font-weight: 800;
+    color: var(--cyber-blue);
+    text-shadow: 0 0 10px var(--cyber-blue);
+    animation: textFlicker 4s infinite;
+}
+
+@keyframes textFlicker {
+    0% { opacity: 1; text-shadow: 0 0 10px var(--cyber-blue); }
+    92% { opacity: 1; text-shadow: 0 0 10px var(--cyber-blue); }
+    93% { opacity: 0.8; text-shadow: 0 0 5px var(--cyber-blue); }
+    94% { opacity: 1; text-shadow: 0 0 15px var(--cyber-blue); }
+    95% { opacity: 0.9; text-shadow: 0 0 8px var(--cyber-blue); }
+    100% { opacity: 1; text-shadow: 0 0 10px var(--cyber-blue); }
+}
+
+.login-sub {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 30px;
+    opacity: 0.8;
+    color: #ffffff;
+    animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+}
+
+/* Tabs - changed to blue theme */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 8px;
+    text-align: center;
+    border-radius: 50px;
+    border: 2px solid var(--cyber-blue);
+    cursor: pointer;
+    color: var(--cyber-blue);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.tab:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.tab.active {
+    background: var(--cyber-blue);
+    color: black;
+    box-shadow: 0 0 30px var(--cyber-blue);
+    animation: tabGlow 2s infinite;
+}
+
+@keyframes tabGlow {
+    0% { box-shadow: 0 0 20px var(--cyber-blue); }
+    50% { box-shadow: 0 0 40px var(--cyber-blue); }
+    100% { box-shadow: 0 0 20px var(--cyber-blue); }
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 15px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.input-group label {
+    font-size: 18px;
+    color: var(--cyber-blue);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--cyber-blue);
+    background: rgba(0,255,255,0.1);
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    box-shadow: 0 0 20px var(--cyber-blue);
+    border-color: white;
+}
+
+.input-group input::placeholder {
+    color: transparent; /* Hide placeholder text */
+}
+
+.phone-row {
+    display: flex;
+}
+
+.country-code {
+    padding: 10px;
+    background: rgba(0,255,255,0.15);
+    border-radius: 10px 0 0 10px;
+    border: 1px solid var(--cyber-blue);
+    border-right: none;
+    color: var(--cyber-blue);
+    font-weight: 600;
+}
+
+.phone-input {
+    border-radius: 0 10px 10px 0;
+}
+
+/* Button - changed to blue */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 50px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(90deg, var(--cyber-blue), #0088ff, var(--cyber-blue));
+    background-size: 200% auto;
+    animation: shimmer 3s infinite linear, buttonPulse 2s infinite;
+    font-size: 20px;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.login-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        transparent,
+        rgba(255,255,255,0.2),
+        transparent
+    );
+    transform: rotate(30deg);
+    animation: btnShine 4s infinite;
+}
+
+@keyframes btnShine {
+    0% { transform: translateX(-100%) rotate(30deg); }
+    20% { transform: translateX(100%) rotate(30deg); }
+    100% { transform: translateX(100%) rotate(30deg); }
+}
+
+.error-msg {
+    text-align: center;
+    margin-top: 10px;
+    color: #ff4d4d;
+    font-size: 13px;
+}
+
+/* Add cyber grid lines effect */
+.login-container::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px dashed rgba(0,255,255,0.3);
+    border-radius: 15px;
+    pointer-events: none;
+    animation: gridPulse 3s infinite;
+}
+
+@keyframes gridPulse {
+    0% { border-color: rgba(0,255,255,0.3); }
+    50% { border-color: rgba(0,255,255,0.8); }
+    100% { border-color: rgba(0,255,255,0.3); }
+}
+
+/* Digital rain effect for admin inputs */
+#adminSection input {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+</style>
+</head>
+
+<body>
+    
+
+<canvas id="particles"></canvas>
+
+<div class="login-container">
+
+<div class="login-title">CYBER CRIME</div>
+<div class="login-sub">complaint system</div>
+
+<div class="tabs">
+<div class="tab active" onclick="switchMode('user')">USER</div>
+<div class="tab" onclick="switchMode('admin')">ADMIN</div>
+</div>
+
+<form id="loginForm">
+
+<div id="userSection">
+<div class="input-group">
+<label>Phone Number</label>
+<div class="phone-row">
+<div class="country-code">+91</div>
+<input type="text" id="phoneInput" maxlength="10" class="phone-input" placeholder=" ">
+</div>
+</div>
+</div>
+
+<div id="adminSection" style="display:none;">
+<div class="input-group">
+<label>Username</label>
+<input type="text" id="adminUser" placeholder=" ">
+</div>
+<div class="input-group">
+<label>Password</label>
+<input type="password" id="adminPass" placeholder=" ">
+</div>
+</div>
+
+<button type="submit" class="login-btn">LOGIN</button>
+<div class="error-msg" id="errorMsg"></div>
+
+</form>
+
+</div>
+
+<script>
+
+/* Switch tabs */
+function switchMode(mode){
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+if(mode==="user"){
+document.querySelectorAll(".tab")[0].classList.add("active");
+document.getElementById("userSection").style.display="block";
+document.getElementById("adminSection").style.display="none";
+}else{
+document.querySelectorAll(".tab")[1].classList.add("active");
+document.getElementById("userSection").style.display="none";
+document.getElementById("adminSection").style.display="block";
+}
+document.getElementById("errorMsg").innerText="";
+}
+
+/* Login */
+document.getElementById("loginForm").addEventListener("submit",function(e){
+e.preventDefault();
+
+if(document.getElementById("adminSection").style.display==="none"){
+const phone=document.getElementById("phoneInput").value;
+if(!/^[0-9]{10}$/.test(phone)){
+document.getElementById("errorMsg").innerText="Enter valid 10 digit phone number";
+return;
+}
+window.location.href="index.html?phone=" + phone;
+}else{
+const user=document.getElementById("adminUser").value;
+const pass=document.getElementById("adminPass").value;
+if(user==="admin" && pass==="1234"){
+localStorage.setItem("isAdmin","true");
+window.location.href="admin.html";
+}else{
+document.getElementById("errorMsg").innerText="Invalid admin credentials";
+}
+}
+});
+
+/* Particles - changed to blue with more dynamic movement */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<100;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*4,
+speedX:(Math.random()-0.5)*0.8,
+speedY:(Math.random()-0.5)*0.8,
+opacity:Math.random()*0.8+0.2
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach(p=>{
+p.x+=p.speedX;
+p.y+=p.speedY;
+if(p.x<0||p.x>canvas.width)p.speedX*=-1;
+if(p.y<0||p.y>canvas.height)p.speedY*=-1;
+
+// Add glow effect
+ctx.shadowColor = '#00ffff';
+ctx.shadowBlur = 10;
+ctx.fillStyle = `rgba(0, 255, 255, ${p.opacity})`;
+ctx.fillRect(p.x,p.y,p.size,p.size);
+});
+requestAnimationFrame(animate);
+}
+animate();
+
+/* Auto open admin tab if mode=admin in URL */
+const params = new URLSearchParams(window.location.search);
+if(params.get("mode") === "admin") {
+    switchMode("admin");
+}
+
+// Add typing effect for admin section (optional)
+let typingEffect = document.createElement('style');
+typingEffect.innerHTML = `
+    #adminSection input {
+        transition: all 0.3s ease;
+    }
+    #adminSection input:focus {
+        transform: translateX(5px);
+    }
+`;
+document.head.appendChild(typingEffect);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cyber Crime Complaint System</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    /* Same as Login Page Variables */
+    :root {
+        --cyber-blue: #00ffff;
+        --cyber-dark: #0a0f0f;
+    }
+
+    /* Same Background Image as Login Page */
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Times New Roman", Times, serif;
+        text-transform: uppercase;
+        background: url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80") no-repeat center center/cover;
+        background-attachment: fixed;
+        position: relative;
+    }
+
+    /* Same Dark overlay with blue tint */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,20,40,0.7);
+        backdrop-filter: blur(4px);
+        z-index: 0;
+    }
+
+    /* Particles Canvas - Same as Login */
+    #particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    header {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 40px 20px;
+        background: rgba(10,15,20,0.4);
+        backdrop-filter: blur(15px);
+        border-bottom: 2px solid var(--cyber-blue);
+        box-shadow: 0 0 40px rgba(0,255,255,0.2);
+        margin-bottom: 30px;
+        animation: headerGlow 3s infinite ease-in-out;
+    }
+
+    @keyframes headerGlow {
+        0% { border-bottom-color: var(--cyber-blue); box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+        50% { border-bottom-color: var(--cyber-blue); box-shadow: 0 0 50px rgba(0,255,255,0.6); }
+        100% { border-bottom-color: var(--cyber-blue); box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 48px;
+        font-weight: 800;
+        color: var(--cyber-blue);
+        text-shadow: 0 0 10px var(--cyber-blue);
+        animation: textFlicker 4s infinite;
+    }
+
+    @keyframes textFlicker {
+        0% { opacity: 1; text-shadow: 0 0 10px var(--cyber-blue); }
+        92% { opacity: 1; text-shadow: 0 0 10px var(--cyber-blue); }
+        93% { opacity: 0.8; text-shadow: 0 0 5px var(--cyber-blue); }
+        94% { opacity: 1; text-shadow: 0 0 15px var(--cyber-blue); }
+        95% { opacity: 0.9; text-shadow: 0 0 8px var(--cyber-blue); }
+        100% { opacity: 1; text-shadow: 0 0 10px var(--cyber-blue); }
+    }
+
+    header p {
+        margin: 10px 0 0;
+        font-size: 20px;
+        color: white;
+        text-shadow: 0 0 10px var(--cyber-blue);
+        animation: slideIn 1s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .glass-card {
+        position: relative;
+        z-index: 2;
+        background: rgba(10,15,20,0.4);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--cyber-blue);
+        border-radius: 25px;
+        padding: 30px;
+        margin: 20px auto;
+        max-width: 800px;
+        box-shadow: 0 0 40px rgba(0,255,255,0.2);
+        animation: glowPulse 3s infinite ease-in-out;
+        position: relative;
+    }
+
+    @keyframes glowPulse {
+        0% { box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+        50% { box-shadow: 0 0 50px rgba(0,255,255,0.6); }
+        100% { box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+    }
+
+    /* Grid lines effect - Same as Login */
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border: 1px dashed rgba(0,255,255,0.3);
+        border-radius: 15px;
+        pointer-events: none;
+        animation: gridPulse 3s infinite;
+    }
+
+    @keyframes gridPulse {
+        0% { border-color: rgba(0,255,255,0.3); }
+        50% { border-color: rgba(0,255,255,0.8); }
+        100% { border-color: rgba(0,255,255,0.3); }
+    }
+
+    .back-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: rgba(0,255,255,0.1);
+        color: var(--cyber-blue);
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        border: 1px solid var(--cyber-blue);
+        transition: all 0.3s ease;
+        animation: btnPulse 2s infinite;
+    }
+
+    @keyframes btnPulse {
+        0% { box-shadow: 0 0 10px rgba(0,255,255,0.2); }
+        50% { box-shadow: 0 0 30px rgba(0,255,255,0.6); }
+        100% { box-shadow: 0 0 10px rgba(0,255,255,0.2); }
+    }
+
+    .back-btn:hover {
+        background: var(--cyber-blue);
+        color: black;
+        transform: scale(1.05);
+    }
+
+    h2 {
+        color: var(--cyber-blue);
+        font-size: 32px;
+        margin-top: 0;
+        margin-bottom: 25px;
+        text-shadow: 0 0 10px var(--cyber-blue);
+        border-left: 4px solid var(--cyber-blue);
+        padding-left: 15px;
+    }
+
+    form {
+        display: grid;
+        gap: 15px;
+    }
+
+    input, textarea {
+        background: rgba(0,255,255,0.1);
+        border: 1px solid var(--cyber-blue);
+        border-radius: 10px;
+        padding: 12px;
+        color: white;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        box-shadow: 0 0 20px var(--cyber-blue);
+        border-color: white;
+        transform: translateY(-2px);
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: rgba(0,255,255,0.7);
+        font-style: italic;
+    }
+
+    textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    input[type="file"] {
+        padding: 10px;
+        cursor: pointer;
+        background: rgba(0,255,255,0.15);
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+        background: var(--cyber-blue);
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        margin-right: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    input[type="file"]::-webkit-file-upload-button:hover {
+        background: white;
+        box-shadow: 0 0 15px var(--cyber-blue);
+    }
+
+    button[type="submit"] {
+        background: linear-gradient(90deg, var(--cyber-blue), #0088ff, var(--cyber-blue));
+        background-size: 200% auto;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        color: black;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        animation: shimmer 3s infinite linear, buttonPulse 2s infinite;
+        margin-top: 10px;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    @keyframes buttonPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+
+    button[type="submit"]:hover {
+        box-shadow: 0 0 30px var(--cyber-blue);
+    }
+
+    /* Updated Complaint List Styles - Only changed text colors to white */
+    #complaintsList {
+        display: grid;
+        gap: 20px;
+    }
+
+    #complaintsList > div {
+        background: rgba(0,255,255,0.05);
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid var(--cyber-blue);
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.5s ease-out;
+        position: relative;
+        overflow: hidden;
+        color: white; /* Makes all text white */
+    }
+
+    #complaintsList > div strong {
+        color: var(--cyber-blue); /* Keeps labels in cyan for visibility */
+        text-shadow: 0 0 5px var(--cyber-blue);
+    }
+
+    #complaintsList > div span:not(.status-badge) {
+        color: white;
+    }
+
+    #complaintsList > div div {
+        color: white;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    #complaintsList > div:hover {
+        transform: translateX(5px);
+        box-shadow: 0 0 30px rgba(0,255,255,0.3);
+        border-color: white;
+    }
+
+    #complaintsList > div::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            transparent,
+            rgba(0,255,255,0.1),
+            transparent
+        );
+        transform: rotate(30deg);
+        animation: cardShine 4s infinite;
+        pointer-events: none;
+    }
+
+    @keyframes cardShine {
+        0% { transform: translateX(-100%) rotate(30deg); }
+        20% { transform: translateX(100%) rotate(30deg); }
+        100% { transform: translateX(100%) rotate(30deg); }
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+        position: relative;
+        padding: 5px 0;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: var(--cyber-blue);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    a:hover {
+        color: var(--cyber-blue);
+        text-shadow: 0 0 10px var(--cyber-blue);
+    }
+
+    a:hover::after {
+        transform: scaleX(1);
+    }
+
+    /* Status Badges - All text white */
+    .status-pendingreview, .status-pending {
+        background: rgba(255, 107, 107, 0.3);
+        border: 1px solid #ff6b6b;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .status-underinvestigation {
+        background: rgba(255, 165, 2, 0.3);
+        border: 1px solid #ffa502;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .status-caseregistered {
+        background: rgba(0, 210, 255, 0.3);
+        border: 1px solid #00d2ff;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .status-closed {
+        background: rgba(0, 176, 155, 0.3);
+        border: 1px solid #00b09b;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid rgba(0,255,255,0.3);
+        margin: 20px 0;
+    }
+
+    /* Custom scrollbar - Matching theme */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(0,255,255,0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--cyber-blue);
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: white;
+    }
+</style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+
+    <header>
+        <h1>CYBER CRIME COMPLAINT SYSTEM</h1>
+        <p>Report Cyber Crimes & Track Complaint Status</p>
+    </header>
+
+    <div class="glass-card">
+        <a href="login.html" class="back-btn">← BACK TO LOGIN</a>
+        <h2>SUBMIT CYBER CRIME COMPLAINT</h2>
+        <form id="complaintForm">
+            <input type="text" name="fullName" placeholder="FULL NAME" required>
+            <input type="text" name="phone" placeholder="PHONE NUMBER" required>
+            <input type="text" name="crimeType" placeholder="TYPE OF CYBER CRIME" required>
+            <textarea name="crimeDescription" placeholder="DESCRIBE THE CYBER CRIME" required></textarea>
+            <input type="file" name="evidence" required>
+            <button type="submit">SUBMIT COMPLAINT</button>
+        </form>
+    </div>
+
+    <div class="glass-card">
+        <h2>YOUR COMPLAINTS</h2>
+        <div id="complaintsList"></div>
+    </div>
+
+    <script>
+        // Same particle system as login page
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for(let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 4,
+                speedX: (Math.random() - 0.5) * 0.8,
+                speedY: (Math.random() - 0.5) * 0.8,
+                opacity: Math.random() * 0.8 + 0.2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                
+                ctx.shadowColor = '#00ffff';
+                ctx.shadowBlur = 10;
+                ctx.fillStyle = `rgba(0, 255, 255, ${p.opacity})`;
+                ctx.fillRect(p.x, p.y, p.size, p.size);
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const form = document.getElementById("complaintForm");
+        const complaintsList = document.getElementById("complaintsList");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            await fetch("/api/cyber-complaints", {
+                method: "POST",
+                body: formData
+            });
+
+            form.reset();
+            loadComplaints();
+        });
+
+        async function loadComplaints() {
+            const res = await fetch("/api/cyber-complaints");
+            const complaints = await res.json();
+
+            complaintsList.innerHTML = "";
+
+            complaints.forEach((complaint) => {
+                complaintsList.innerHTML += `
+                    <div>
+                        <strong>NAME:</strong> ${complaint.fullName}<br><br>
+                        <strong>CRIME TYPE:</strong> ${complaint.crimeType}<br><br>
+                        <strong>DESCRIPTION:</strong> ${complaint.crimeDescription}<br><br>
+                        <strong>STATUS:</strong> 
+                        <span class="status-${complaint.status.toLowerCase().replace(" ","")}">
+                            ${complaint.status}
+                        </span>
+                        <br><br>
+                        <a href="${complaint.documentUrl}" target="_blank">VIEW EVIDENCE →</a>
+                    </div>
+                `;
+            });
+        }
+
+        loadComplaints();
+
+        // Get phone from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const phone = urlParams.get("phone");
+        if(phone) {
+            console.log("Welcome user:", phone);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Test Complaint Form</h2>
+    <form id="testForm">
+        <input type="text" name="fullName" placeholder="Name" value="Test User"><br>
+        <input type="text" name="phone" placeholder="Phone" value="1234567890"><br>
+        <input type="text" name="crimeType" placeholder="Crime Type" value="Test Crime"><br>
+        <textarea name="crimeDescription" placeholder="Description">Test Description</textarea><br>
+        <button type="submit">Submit Test</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('testForm').onsubmit = async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            
+            try {
+                const res = await fetch('/api/cyber-complaints', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await res.json();
+                document.getElementById('result').innerHTML = 
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                
+                if (data.success) {
+                    alert('Success! Check your database.');
+                }
+            } catch (err) {
+                document.getElementById('result').innerHTML = 'Error: ' + err.message;
+            }
+        };
+    </script>
+</body>
+</html>

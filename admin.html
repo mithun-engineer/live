@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cyber Crime Admin Panel</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    /* Same as login page variables */
+    :root {
+        --cyber-blue: #00ffff;
+        --cyber-dark: #0a0f0f;
+    }
+
+    /* Same background as login page */
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Times New Roman", Times, serif;
+        background: url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80") no-repeat center center/cover;
+        background-attachment: fixed;
+        position: relative;
+    }
+
+    /* Same overlay */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,20,40,0.7);
+        backdrop-filter: blur(4px);
+        z-index: 0;
+    }
+
+    /* Particles canvas */
+    #particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    header {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 40px 20px;
+        background: rgba(10,15,20,0.4);
+        backdrop-filter: blur(15px);
+        border-bottom: 2px solid var(--cyber-blue);
+        box-shadow: 0 0 40px rgba(0,255,255,0.2);
+        margin-bottom: 30px;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 48px;
+        font-weight: 800;
+        color: var(--cyber-blue);
+        text-shadow: 0 0 10px var(--cyber-blue);
+    }
+
+    header p {
+        margin: 10px 0 0;
+        font-size: 20px;
+        color: white;
+        text-shadow: 0 0 10px var(--cyber-blue);
+    }
+
+    .glass-card {
+        position: relative;
+        z-index: 2;
+        background: rgba(10,15,20,0.4);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--cyber-blue);
+        border-radius: 25px;
+        padding: 30px;
+        margin: 20px auto;
+        max-width: 1000px;
+        box-shadow: 0 0 40px rgba(0,255,255,0.2);
+    }
+
+    /* Grid lines effect */
+    .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border: 1px dashed rgba(0,255,255,0.3);
+        border-radius: 15px;
+        pointer-events: none;
+    }
+
+    .back-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: rgba(0,255,255,0.1);
+        color: var(--cyber-blue);
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        border: 1px solid var(--cyber-blue);
+        transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+        background: var(--cyber-blue);
+        color: black;
+    }
+
+    h2 {
+        color: var(--cyber-blue);
+        font-size: 32px;
+        margin-top: 0;
+        margin-bottom: 25px;
+        text-shadow: 0 0 10px var(--cyber-blue);
+        border-left: 4px solid var(--cyber-blue);
+        padding-left: 15px;
+    }
+
+    /* Stats container - small change for admin */
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: rgba(0,255,255,0.1);
+        border: 1px solid var(--cyber-blue);
+        border-radius: 15px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 36px;
+        font-weight: bold;
+        color: var(--cyber-blue);
+        text-shadow: 0 0 10px var(--cyber-blue);
+    }
+
+    .stat-label {
+        color: white;
+        font-size: 14px;
+    }
+
+    /* Complaint cards */
+    .complaint-card {
+        background: rgba(0,255,255,0.05);
+        border: 1px solid var(--cyber-blue);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .complaint-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(0,255,255,0.3);
+    }
+
+    .complaint-id {
+        color: var(--cyber-blue);
+        font-weight: bold;
+        font-family: monospace;
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .status-pendingreview {
+        background: rgba(255, 193, 7, 0.3);
+        border: 1px solid #ffc107;
+        color: #ffc107;
+    }
+
+    .status-underinvestigation {
+        background: rgba(0, 255, 255, 0.3);
+        border: 1px solid var(--cyber-blue);
+        color: var(--cyber-blue);
+    }
+
+    .status-caseregistered {
+        background: rgba(40, 167, 69, 0.3);
+        border: 1px solid #28a745;
+        color: #28a745;
+    }
+
+    .status-closed {
+        background: rgba(108, 117, 125, 0.3);
+        border: 1px solid #6c757d;
+        color: #6c757d;
+    }
+
+    .detail-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 15px 0;
+    }
+
+    .detail-item {
+        background: rgba(0,0,0,0.3);
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .detail-label {
+        color: var(--cyber-blue);
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .detail-value {
+        color: white;
+        word-break: break-word;
+    }
+
+    /* Update form */
+    .update-form {
+        margin-top: 15px;
+        padding: 15px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 10px;
+    }
+
+    select, input, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        background: rgba(0,255,255,0.1);
+        border: 1px solid var(--cyber-blue);
+        border-radius: 5px;
+        color: white;
+    }
+
+    select option {
+        background: var(--cyber-dark);
+    }
+
+    button {
+        padding: 10px 20px;
+        background: var(--cyber-blue);
+        border: none;
+        border-radius: 5px;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        box-shadow: 0 0 20px var(--cyber-blue);
+    }
+
+    .delete-btn {
+        background: rgba(255, 0, 0, 0.5);
+        color: white;
+    }
+
+    .delete-btn:hover {
+        box-shadow: 0 0 20px red;
+    }
+
+    a {
+        color: var(--cyber-blue);
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+
+    <header>
+        <h1>CYBER CRIME ADMIN PANEL</h1>
+        <p>Manage Complaint Status</p>
+    </header>
+
+    <div class="glass-card">
+        <a href="login.html?mode=admin" class="back-btn">← BACK TO LOGIN</a>
+        
+        <!-- Statistics -->
+        <div class="stats-container" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalComplaints">0</div>
+                <div class="stat-label">TOTAL</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingReview">0</div>
+                <div class="stat-label">PENDING</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="underInvestigation">0</div>
+                <div class="stat-label">INVESTIGATING</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="closed">0</div>
+                <div class="stat-label">CLOSED</div>
+            </div>
+        </div>
+
+        <h2>ALL COMPLAINTS</h2>
+        <div id="adminList"></div>
+    </div>
+
+    <script>
+        // Same particle system
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for(let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                speedX: Math.random() * 0.4 - 0.2,
+                speedY: Math.random() * 0.4 - 0.2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                ctx.fillStyle = "#00ffff";
+                ctx.fillRect(p.x, p.y, p.size, p.size);
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Check admin login
+        if (!localStorage.getItem("isAdmin")) {
+            window.location.href = "login.html?mode=admin";
+        }
+
+        let allComplaints = [];
+
+        // Load complaints
+        async function loadComplaints() {
+            try {
+                const res = await fetch("/api/cyber-complaints");
+                allComplaints = await res.json();
+                updateStats();
+                displayComplaints();
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById("totalComplaints").textContent = allComplaints.length;
+            document.getElementById("pendingReview").textContent = 
+                allComplaints.filter(c => c.status === "Pending Review").length;
+            document.getElementById("underInvestigation").textContent = 
+                allComplaints.filter(c => c.status === "Under Investigation").length;
+            document.getElementById("closed").textContent = 
+                allComplaints.filter(c => c.status === "Closed").length;
+        }
+
+        // Display complaints
+        function displayComplaints() {
+            const container = document.getElementById("adminList");
+            
+            if (allComplaints.length === 0) {
+                container.innerHTML = "<p style='text-align: center; color: white;'>No complaints found</p>";
+                return;
+            }
+
+            container.innerHTML = allComplaints.map(complaint => `
+                <div class="complaint-card">
+                    <div class="complaint-header">
+                        <span class="complaint-id">#${complaint._id.slice(-8)}</span>
+                        <span class="status-badge status-${complaint.status.toLowerCase().replace(/\s+/g, '')}">
+                            ${complaint.status}
+                        </span>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <div class="detail-label">NAME</div>
+                            <div class="detail-value">${complaint.fullName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">PHONE</div>
+                            <div class="detail-value">${complaint.phone}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">CRIME TYPE</div>
+                            <div class="detail-value">${complaint.crimeType}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">DATE</div>
+                            <div class="detail-value">${new Date(complaint.createdAt).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-item" style="margin-bottom: 15px;">
+                        <div class="detail-label">DESCRIPTION</div>
+                        <div class="detail-value">${complaint.crimeDescription}</div>
+                    </div>
+
+                    ${complaint.documentUrl ? `
+                        <a href="${complaint.documentUrl}" target="_blank">📎 View Evidence</a>
+                    ` : ''}
+
+                    <div class="update-form">
+                        <select id="status-${complaint._id}">
+                            <option value="Pending Review" ${complaint.status === 'Pending Review' ? 'selected' : ''}>Pending Review</option>
+                            <option value="Under Investigation" ${complaint.status === 'Under Investigation' ? 'selected' : ''}>Under Investigation</option>
+                            <option value="Case Registered" ${complaint.status === 'Case Registered' ? 'selected' : ''}>Case Registered</option>
+                            <option value="Closed" ${complaint.status === 'Closed' ? 'selected' : ''}>Closed</option>
+                        </select>
+                        
+                        <button onclick="updateStatus('${complaint._id}')">Update Status</button>
+                        <button class="delete-btn" onclick="deleteComplaint('${complaint._id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update status
+        async function updateStatus(id) {
+            const status = document.getElementById(`status-${id}`).value;
+            
+            try {
+                const res = await fetch(`/api/cyber-complaints/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status })
+                });
+
+                if (res.ok) {
+                    alert("Status updated!");
+                    loadComplaints();
+                }
+            } catch (error) {
+                alert("Error updating status");
+            }
+        }
+
+        // Delete complaint
+        async function deleteComplaint(id) {
+            if (!confirm("Delete this complaint?")) return;
+
+            try {
+                const res = await fetch(`/api/cyber-complaints/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (res.ok) {
+                    alert("Complaint deleted!");
+                    loadComplaints();
+                }
+            } catch (error) {
+                alert("Error deleting complaint");
+            }
+        }
+
+        // Load complaints on page load
+        loadComplaints();
+    </script>
+</body>
+</html>
